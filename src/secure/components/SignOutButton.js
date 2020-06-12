@@ -2,6 +2,7 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
+import { Auth } from 'aws-amplify';
 
 const useStyles = makeStyles((theme) => ({
   link: {
@@ -9,14 +10,15 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-function SignOut() {
-  localStorage.removeItem('Authentication');
-}
-
 function SignOutButton() {
   const classes = useStyles();
+  
+  const signOut = () => {
+    Auth.signOut();
+  };
+
   return (
-    <Button href="/" color="primary" variant="outlined" className={classes.link} onClick={SignOut}>
+    <Button href="/" color="primary" variant="outlined" className={classes.link} onClick={signOut}>
       Sign out
     </Button>
   );

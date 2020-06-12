@@ -54,8 +54,14 @@ function Alert(props) {
 
 function Signin() {
   const classes = useStyles();
-  
+
   let history = useHistory();
+
+  Auth.currentUserInfo().then(user => {
+    if(user) {
+      history.push('/secure');
+    }
+  });
 
   const [open, setOpen] = useState(false);
   const [errorMsg, setErrorMsg] = useState();
