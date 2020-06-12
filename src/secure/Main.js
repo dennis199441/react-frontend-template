@@ -1,21 +1,17 @@
-import React, { useState } from 'react';
-import { Redirect } from "react-router-dom";
-import AuthService from '../api/AuthService';
+import React from 'react';
+import CssBaseline from '@material-ui/core/CssBaseline';
 import Routing from './Routing';
+import SecureAppBar from './components/SecureAppBar';
+import { withAuthenticator } from '@aws-amplify/ui-react';
 
 function Main() {
-  const [user, setUser] = useState();
-  
-  let isLoggedIn = AuthService.isLoggedIn();
-  if (!isLoggedIn) {
-    return <Redirect to='/'/>
-  }
-  
-  AuthService.getUser().then((res) => {
-    setUser(res.data.name);
-  });
-
-  return <Routing user={user}/>
+  return (
+    <React.Fragment>
+      <CssBaseline />
+      <SecureAppBar/>
+      <Routing />
+    </React.Fragment>
+  );
 }
 
-export default Main;
+export default withAuthenticator(Main);

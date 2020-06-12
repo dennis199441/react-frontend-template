@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
-import { Redirect } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
 import Paper from '@material-ui/core/Paper';
 import Box from '@material-ui/core/Box';
@@ -13,10 +11,11 @@ import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
-import { GoogleLogin } from 'react-google-login';
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
+import Grow from '@material-ui/core/Grow';
+import { Auth } from 'aws-amplify';
 import Copyright from '../components/Copyright';
-
-const OAUTH_CLIENT_ID = process.env.REACT_APP_OAUTH_CLIENT_ID
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -49,23 +48,38 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
 function Signin() {
   const classes = useStyles();
-  const [redirect, setRedirect] = useState();
-
-  function onSuccess(res) {
-    localStorage.setItem('Authentication', JSON.stringify(res.tokenObj));
-    setRedirect('/secure/home');
-  }
-
-  function onFailure(response) {
-    console.log(response);
-  }
-
-  if(redirect) {
-    return <Redirect to={redirect} />
-  }
   
+  let history = useHistory();
+
+  const [open, setOpen] = useState(false);
+  const [errorMsg, setErrorMsg] = useState();
+  const [transition, setTransition] = useState(Grow);
+  const [vertical, setVertical] = useState("top");
+  const [horizontal, setHorizontal] = useState("center");
+
+  const handleClose = (event, reason) => {
+    setOpen(false);
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const data = new FormData(event.target);
+    let email = data.get('email');
+    let password = data.get('password');
+    Auth.signIn(email, password).then(data => {
+      history.push('/secure')
+    }).catch(e => {
+      setOpen(true);
+      setErrorMsg(e.message);
+    });
+  };
+
   return (
     <Grid container component="main" className={classes.root}>
       <CssBaseline />
@@ -78,7 +92,7 @@ function Signin() {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          <form className={classes.form} noValidate>
+          <form className={classes.form} noValidate onSubmit={handleSubmit}>
             <TextField
               variant="outlined"
               margin="normal"
@@ -101,10 +115,6 @@ function Signin() {
               id="password"
               autoComplete="current-password"
             />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            />
             <Button
               type="submit"
               fullWidth
@@ -126,15 +136,16 @@ function Signin() {
                 </Link>
               </Grid>
             </Grid>
+            <Snackbar
+              anchorOrigin={{ vertical, horizontal }}
+              open={open}
+              onClose={handleClose}
+              TransitionComponent={transition}
+              key={transition.name}
+            >
+              <Alert severity="error">{errorMsg}</Alert>
+            </Snackbar>
           </form>
-          <span>&nbsp;&nbsp;</span>
-          <GoogleLogin
-            clientId={OAUTH_CLIENT_ID}
-            onSuccess={onSuccess}
-            onFailure={onFailure}
-            prompt="consent"
-            cookiePolicy={'single_host_origin'}
-          />
           <Box mt={5}>
             <Copyright />
           </Box>
