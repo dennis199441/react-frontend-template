@@ -2,7 +2,6 @@ import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import SignOutButton from '../components/SignOutButton';
 import logo from '../../logo.svg';
-import '../../App.css';
 
 function Home(props) {
   return (

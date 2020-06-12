@@ -7,7 +7,6 @@ import Container from '@material-ui/core/Container';
 import Box from '@material-ui/core/Box';
 
 import Copyright from '../components/Copyright';
-import '../../App.css';
 
 const useStyles = makeStyles((theme) => ({
   '@global': {
