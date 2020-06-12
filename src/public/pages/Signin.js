@@ -14,6 +14,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 import Grow from '@material-ui/core/Grow';
+import { CircularProgress } from '@material-ui/core';
 import { Auth } from 'aws-amplify';
 import Copyright from '../components/Copyright';
 
@@ -55,19 +56,22 @@ function Alert(props) {
 function Signin() {
   const classes = useStyles();
 
-  let history = useHistory();
-
-  Auth.currentUserInfo().then(user => {
-    if(user) {
-      history.push('/secure');
-    }
-  });
-
   const [open, setOpen] = useState(false);
   const [errorMsg, setErrorMsg] = useState();
   const [transition, setTransition] = useState(Grow);
   const [vertical, setVertical] = useState("top");
   const [horizontal, setHorizontal] = useState("center");
+  const [loading, setLoading] = useState(true);
+
+  let history = useHistory();
+
+  Auth.currentUserInfo().then(user => {
+    if (user) {
+      history.push('/secure');
+    } else {
+      setLoading(false);
+    }
+  });
 
   const handleClose = (event, reason) => {
     setOpen(false);
@@ -86,6 +90,27 @@ function Signin() {
     });
   };
 
+  const renderButton = () => {
+    if (loading) {
+      return (
+        <div style={{textAlign: 'center'}}>
+          <CircularProgress />
+        </div>
+      );
+    }
+    return (
+      <Button
+        type="submit"
+        fullWidth
+        variant="contained"
+        color="primary"
+        className={classes.submit}
+      >
+        Sign In
+      </Button>
+    );
+  };
+  
   return (
     <Grid container component="main" className={classes.root}>
       <CssBaseline />
@@ -121,15 +146,7 @@ function Signin() {
               id="password"
               autoComplete="current-password"
             />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              color="primary"
-              className={classes.submit}
-            >
-              Sign In
-            </Button>
+            {renderButton()}
             <Grid container>
               <Grid item xs>
                 <Link href="#" variant="body2">
