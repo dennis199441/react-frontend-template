@@ -3,7 +3,6 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
-import { AmplifySignOut } from '@aws-amplify/ui-react';
 import SignOutButton from './SignOutButton';
 
 const useStyles = makeStyles((theme) => ({
