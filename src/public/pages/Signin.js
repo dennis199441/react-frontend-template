@@ -16,8 +16,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { GoogleLogin } from 'react-google-login';
 import Copyright from '../components/Copyright';
 
-const OauthClientId = process.env.REACT_APP_OAUTH_CLIENT_ID
-console.log(OauthClientId);
+const OAUTH_CLIENT_ID = process.env.REACT_APP_OAUTH_CLIENT_ID
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -130,7 +129,7 @@ function Signin() {
           </form>
           <span>&nbsp;&nbsp;</span>
           <GoogleLogin
-            clientId={OauthClientId}
+            clientId={OAUTH_CLIENT_ID}
             onSuccess={onSuccess}
             onFailure={onFailure}
             prompt="consent"
