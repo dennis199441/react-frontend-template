@@ -5,9 +5,6 @@ import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import Link from '@material-ui/core/Link';
 import Paper from '@material-ui/core/Paper';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
@@ -18,6 +15,7 @@ import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 import Grow from '@material-ui/core/Grow';
 import Copyright from '../components/Copyright';
+import { Redirect } from 'react-router-dom/cjs/react-router-dom.min';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -54,32 +52,61 @@ function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
-function Signup() {
+function ConfirmSignup() {
   const classes = useStyles();
 
-  const [open, setOpen] = useState(false);
+  const [openSucMsg, setOpenSucMsg] = useState(false);
+  const [openErrMsg, setOpenErrMsg] = useState(false);
+  const [openInfoMsg, setOpenInfoMsg] = useState(false);
+  const [successMsg, setSuccessMsg] = useState();
   const [errorMsg, setErrorMsg] = useState();
+  const [infoMsg, setInfoMsg] = useState();
   const [transition] = useState(Grow);
   const [vertical] = useState("top");
   const [horizontal] = useState("center");
 
   let history = useHistory();
+  if (!history.location.state) {
+    return <Redirect to="/signup" />
+  }
 
-  const handleClose = (event, reason) => {
-    setOpen(false);
+  let username = history.location.state.username;
+
+  const handleCloseSucMsg = (event, reason) => {
+    setOpenSucMsg(false);
+    history.push('/signin');
+  };
+
+  const handleCloseInfoMsg = (event, reason) => {
+    setOpenInfoMsg(false);
+  };
+
+  const handleCloseErrMsg = (event, reason) => {
+    setOpenErrMsg(false);
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.target);
-    let email = data.get('email').toLowerCase();
-    let password = data.get('password');
-    Auth.signUp(email, password).then(data => {
-      console.log("SignUp success!");
-      console.log(data.user.username);
-      history.push('/signup/confirm', { username: data.user.username });
+    let verificationCode = data.get('verificationCode');
+    Auth.confirmSignUp(username, verificationCode).then(data => {
+      console.log("verification success");
+      setOpenSucMsg(true);
+      setSuccessMsg("Verification Success! Click to sign in!");
     }).catch(e => {
-      setOpen(true);
+      setOpenErrMsg(true);
+      setErrorMsg(e.message);
+    })
+  };
+
+  const sendVerificationCode = () => {
+    console.log("resend");
+    console.log(username);
+    Auth.resendSignUp(username, { email: username }).then(data => {
+      setOpenInfoMsg(true);
+      setInfoMsg("New verification code is sent to your email address.");
+    }).catch(e => {
+      setOpenErrMsg(true);
       setErrorMsg(e.message);
     });
   };
@@ -94,37 +121,22 @@ function Signup() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign up
+            Verify Email Address
           </Typography>
+          <p style={{ textAlign: 'center' }}>
+            Please check your email for the verification code.
+          </p>
           <form className={classes.form} noValidate onSubmit={handleSubmit}>
             <Grid container spacing={2}>
-              <Grid item xs={12}>
+              <Grid item xs={12} sm={12}>
                 <TextField
+                  name="verificationCode"
                   variant="outlined"
                   required
                   fullWidth
-                  id="email"
-                  label="Email Address"
-                  name="email"
-                  autoComplete="email"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  variant="outlined"
-                  required
-                  fullWidth
-                  name="password"
-                  label="Password"
-                  type="password"
-                  id="password"
-                  autoComplete="current-password"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <FormControlLabel
-                  control={<Checkbox value="allowExtraEmails" color="primary" />}
-                  label="I want to receive inspiration, marketing promotions and updates via email."
+                  id="verificationCode"
+                  label="Verification Code"
+                  autoFocus
                 />
               </Grid>
             </Grid>
@@ -135,23 +147,41 @@ function Signup() {
               color="primary"
               className={classes.submit}
             >
-              Sign Up
+              Verify
             </Button>
-            <Grid container justify="flex-end">
+            <Grid container justify="center">
               <Grid item>
-                <Link href="/signin" variant="body2">
-                  Already have an account? Sign in
-                </Link>
+                <Button size="small" color="primary" onClick={sendVerificationCode}>
+                  Haven't received your verification code?
+                </Button>
               </Grid>
             </Grid>
             <Snackbar
               anchorOrigin={{ vertical, horizontal }}
-              open={open}
-              onClose={handleClose}
+              open={openInfoMsg}
+              onClose={handleCloseInfoMsg}
+              TransitionComponent={transition}
+              key={transition.name}
+            >
+              <Alert severity="info">{infoMsg}</Alert>
+            </Snackbar>
+            <Snackbar
+              anchorOrigin={{ vertical, horizontal }}
+              open={openErrMsg}
+              onClose={handleCloseErrMsg}
               TransitionComponent={transition}
               key={transition.name}
             >
               <Alert severity="error">{errorMsg}</Alert>
+            </Snackbar>
+            <Snackbar
+              anchorOrigin={{ vertical, horizontal }}
+              open={openSucMsg}
+              onClose={handleCloseSucMsg}
+              TransitionComponent={transition}
+              key={transition.name}
+            >
+              <Alert severity="success">{successMsg}</Alert>
             </Snackbar>
           </form>
           <Box mt={5}>
@@ -163,4 +193,4 @@ function Signup() {
   );
 }
 
-export default Signup;
+export default ConfirmSignup;

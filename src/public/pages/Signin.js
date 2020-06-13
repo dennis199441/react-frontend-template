@@ -58,9 +58,9 @@ function Signin() {
 
   const [open, setOpen] = useState(false);
   const [errorMsg, setErrorMsg] = useState();
-  const [transition, setTransition] = useState(Grow);
-  const [vertical, setVertical] = useState("top");
-  const [horizontal, setHorizontal] = useState("center");
+  const [transition] = useState(Grow);
+  const [vertical] = useState("top");
+  const [horizontal] = useState("center");
   const [loading, setLoading] = useState(true);
 
   let history = useHistory();
@@ -79,8 +79,9 @@ function Signin() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    setLoading(true);
     const data = new FormData(event.target);
-    let email = data.get('email');
+    let email = data.get('email').toLowerCase();
     let password = data.get('password');
     Auth.signIn(email, password).then(data => {
       history.push('/secure')
