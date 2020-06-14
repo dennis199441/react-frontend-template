@@ -15,6 +15,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import ChatIcon from '@material-ui/icons/Chat';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { Auth } from 'aws-amplify';
 
 const useStyles = makeStyles((theme) => ({
@@ -102,14 +103,14 @@ function SecureAppBar() {
     setAnchorEl(null);
     handleMobileMenuClose();
   };
-  
+
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
   const handleSignOut = () => {
     Auth.signOut();
-    history.replace('/', {msg: 'Sign out successful. See you!'});
+    history.replace('/', { msg: 'Sign out successful. See you!' });
   };
 
   const menuId = 'primary-search-account-menu';
@@ -166,6 +167,12 @@ function SecureAppBar() {
           <AccountCircle />
         </IconButton>
         <p>Profile</p>
+      </MenuItem>
+      <MenuItem onClick={handleSignOut}>
+        <IconButton aria-label="show 4 new mails" color="inherit">
+          <ExitToAppIcon />
+        </IconButton>
+        <p>Sign out</p>
       </MenuItem>
     </Menu>
   );
