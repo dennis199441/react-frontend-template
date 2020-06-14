@@ -75,7 +75,7 @@ function Signup() {
     let email = data.get('email').toLowerCase();
     let password = data.get('password');
     Auth.signUp(email, password).then(data => {
-      history.push('/signup/confirm', { username: data.user.username });
+      history.replace('/signup/confirm', { username: data.user.username });
     }).catch(e => {
       setOpen(true);
       setErrorMsg(e.message);

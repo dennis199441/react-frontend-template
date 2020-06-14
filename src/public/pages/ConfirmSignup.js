@@ -74,7 +74,7 @@ function ConfirmSignup() {
 
   const handleCloseSucMsg = (event, reason) => {
     setOpenSucMsg(false);
-    history.push('/signin');
+    history.replace('/signin');
   };
 
   const handleCloseInfoMsg = (event, reason) => {

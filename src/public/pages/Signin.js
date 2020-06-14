@@ -67,7 +67,7 @@ function Signin() {
 
   Auth.currentUserInfo().then(user => {
     if (user) {
-      history.push('/secure');
+      history.replace('/secure');
     } else {
       setLoading(false);
     }
@@ -84,7 +84,7 @@ function Signin() {
     let email = data.get('email').toLowerCase();
     let password = data.get('password');
     Auth.signIn(email, password).then(data => {
-      history.push('/secure')
+      history.replace('/secure')
     }).catch(e => {
       setOpen(true);
       setErrorMsg(e.message);
