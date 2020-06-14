@@ -11,6 +11,8 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 - [ ] ...
 
 ## How to run
+This project requires node version >= 10. If you have multiple node version in your machine, use [nvm](https://github.com/nvm-sh/nvm) to switch the node version. For example, `nvm use 10`.
+
 In the project directory, you can run:
 
 ### `yarn install`
