@@ -1,7 +1,7 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Todo
-- [x] AWS Amplify setup
+- [x] AWS Amplify setup ([Amplify tutorial](https://docs.amplify.aws/start/getting-started/installation/q/integration/react))
 - [x] Sign in function
 - [x] Sign out function
 - [x] Sign up function
