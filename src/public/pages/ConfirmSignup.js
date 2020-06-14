@@ -90,7 +90,6 @@ function ConfirmSignup() {
     const data = new FormData(event.target);
     let verificationCode = data.get('verificationCode');
     Auth.confirmSignUp(username, verificationCode).then(data => {
-      console.log("verification success");
       setOpenSucMsg(true);
       setSuccessMsg("Verification Success! Click to sign in!");
     }).catch(e => {
@@ -100,8 +99,6 @@ function ConfirmSignup() {
   };
 
   const sendVerificationCode = () => {
-    console.log("resend");
-    console.log(username);
     Auth.resendSignUp(username, { email: username }).then(data => {
       setOpenInfoMsg(true);
       setInfoMsg("New verification code is sent to your email address.");

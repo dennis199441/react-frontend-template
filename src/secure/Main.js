@@ -13,7 +13,6 @@ function Main() {
     if(!user) {
       history.replace('/');
     } else {
-      console.log(user);
       setUser(user.attributes.email);
     }
   });

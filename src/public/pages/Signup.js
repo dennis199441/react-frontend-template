@@ -75,8 +75,6 @@ function Signup() {
     let email = data.get('email').toLowerCase();
     let password = data.get('password');
     Auth.signUp(email, password).then(data => {
-      console.log("SignUp success!");
-      console.log(data.user.username);
       history.push('/signup/confirm', { username: data.user.username });
     }).catch(e => {
       setOpen(true);
