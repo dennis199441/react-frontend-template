@@ -1,40 +1,37 @@
 import React from 'react';
+import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
-import SignInButton from './SignInButton';
-import SignUpButton from './SignUpButton';
+import SignInButton from '../components/SignInButton';
+import SignUpButton from '../components/SignUpButton';
 
 const useStyles = makeStyles((theme) => ({
-    appBar: {
-      borderBottom: `1px solid ${theme.palette.divider}`,
-    },
-    toolbar: {
-      flexWrap: 'wrap',
-    },
-    toolbarTitle: {
-      flexGrow: 1,
-    },
-    link: {
-      margin: theme.spacing(1, 1.5),
-    }
-  }));
+  appBar: {
+    borderBottom: `1px solid ${theme.palette.divider}`,
+  },
+  menuButton: {
+    marginRight: theme.spacing(2),
+  },
+  title: {
+    flexGrow: 1,
+  },
+}));
 
 function LandingAppBar() {
-    const classes = useStyles();
+  const classes = useStyles();
+
   return (
     <AppBar position="static" color="default" elevation={0} className={classes.appBar}>
-        <Toolbar className={classes.toolbar}>
-          <Typography variant="h6" color="inherit" noWrap className={classes.toolbarTitle}>
-            Company name
+        <Toolbar>
+          <Typography variant="h6" className={classes.title}>
+            Logo
           </Typography>
           <SignInButton/>
           <SignUpButton/>
         </Toolbar>
       </AppBar>
   );
-
-}
+};
 
 export default LandingAppBar;
