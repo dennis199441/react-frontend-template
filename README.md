@@ -1,12 +1,20 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Todo
-1. Make sure secure pages are accessible only if user is logged in.
-2. Authentication mechanism, token generation, refresh, etc.
+- [x] AWS Amplify setup
+- [x] Sign in function
+- [x] Sign out function
+- [x] Sign up function
+- [ ] User profile page
+- [ ] Chat interface
+- [ ] News feed
+- [ ] ...
 
-## Available Scripts
-
+## How to run
 In the project directory, you can run:
+
+### `yarn install`
+Install the dependencies listed in `yarn.lock`
 
 ### `yarn start`
 
