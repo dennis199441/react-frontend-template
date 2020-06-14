@@ -58,6 +58,7 @@ function Signup() {
   const classes = useStyles();
 
   const [open, setOpen] = useState(false);
+  const [disable, setDisable] = useState(false);
   const [errorMsg, setErrorMsg] = useState();
   const [transition] = useState(Grow);
   const [vertical] = useState("top");
@@ -71,6 +72,7 @@ function Signup() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    setDisable(true);
     const data = new FormData(event.target);
     let email = data.get('email').toLowerCase();
     let password = data.get('password');
@@ -78,6 +80,7 @@ function Signup() {
       history.replace('/signup/confirm', { username: data.user.username });
     }).catch(e => {
       setOpen(true);
+      setDisable(false);
       setErrorMsg(e.message);
     });
   };
@@ -132,6 +135,7 @@ function Signup() {
               variant="contained"
               color="primary"
               className={classes.submit}
+              disabled={disable}
             >
               Sign Up
             </Button>

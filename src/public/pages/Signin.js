@@ -57,6 +57,7 @@ function Signin() {
   const classes = useStyles();
 
   const [open, setOpen] = useState(false);
+  const [disable, setDisable] = useState(false);
   const [errorMsg, setErrorMsg] = useState();
   const [transition] = useState(Grow);
   const [vertical] = useState("top");
@@ -79,7 +80,7 @@ function Signin() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    setLoading(true);
+    setDisable(true);
     const data = new FormData(event.target);
     let email = data.get('email').toLowerCase();
     let password = data.get('password');
@@ -87,6 +88,7 @@ function Signin() {
       history.replace('/secure')
     }).catch(e => {
       setOpen(true);
+      setDisable(false);
       setErrorMsg(e.message);
     });
   };
@@ -106,6 +108,7 @@ function Signin() {
         variant="contained"
         color="primary"
         className={classes.submit}
+        disabled={disable}
       >
         Sign In
       </Button>

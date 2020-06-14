@@ -55,6 +55,7 @@ function Alert(props) {
 function ConfirmSignup() {
   const classes = useStyles();
 
+  const [disable, setDisable] = useState(false);
   const [openSucMsg, setOpenSucMsg] = useState(false);
   const [openErrMsg, setOpenErrMsg] = useState(false);
   const [openInfoMsg, setOpenInfoMsg] = useState(false);
@@ -87,6 +88,7 @@ function ConfirmSignup() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    setDisable(true);
     const data = new FormData(event.target);
     let verificationCode = data.get('verificationCode');
     Auth.confirmSignUp(username, verificationCode).then(data => {
@@ -94,6 +96,7 @@ function ConfirmSignup() {
       setSuccessMsg("Verification Success! Click to sign in!");
     }).catch(e => {
       setOpenErrMsg(true);
+      setDisable(false);
       setErrorMsg(e.message);
     })
   };
@@ -143,6 +146,7 @@ function ConfirmSignup() {
               variant="contained"
               color="primary"
               className={classes.submit}
+              disabled={disable}
             >
               Verify
             </Button>
