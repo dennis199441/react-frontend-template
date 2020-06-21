@@ -45,8 +45,7 @@ function Landing() {
         anchorOrigin={{ vertical, horizontal } as SnackbarOrigin}
         onClose={handleClose}
         open={open}
-        TransitionComponent={transition as any}
-        // key={transition.name}
+        TransitionComponent={transition as any} 
       >
         <Alert severity="success">{msg}</Alert>
       </Snackbar>

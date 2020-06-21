@@ -4,6 +4,8 @@ import Signin from './pages/Signin';
 import Signup from './pages/Signup';
 import ConfirmSignup from './pages/ConfirmSignup';
 import Landing from "./pages/Landing";
+import ForgotPassword from './pages/ForgotPassword';
+import ConfirmForgotPassword from './pages/ConfirmForgotPassword';
 
 function Routing() {
   return (
@@ -16,6 +18,12 @@ function Routing() {
       </Route>
       <Route path="/signup">
         <Signup/>
+      </Route>
+      <Route path="/forgot/confirm">
+        <ConfirmForgotPassword/>
+      </Route>
+      <Route path="/forgot">
+        <ForgotPassword/>
       </Route>
       <Route path="/">
         <Landing/>

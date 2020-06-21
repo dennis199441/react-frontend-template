@@ -152,7 +152,7 @@ function Signin() {
             {renderButton()}
             <Grid container>
               <Grid item xs>
-                <Link href="#" variant="body2">
+                <Link href="/forgot" variant="body2">
                   Forgot password?
                 </Link>
               </Grid>
@@ -167,7 +167,6 @@ function Signin() {
               open={open}
               onClose={handleClose}
               TransitionComponent={transition as any}
-              // key={transition}
             >
               <Alert severity="error">{errorMsg}</Alert>
             </Snackbar>
