@@ -60,7 +60,6 @@ function ConfirmForgotPassword() {
   const [openErrMsg, setOpenErrMsg] = useState(false);
   const [successMsg, setSuccessMsg] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
-  const [infoMsg, setInfoMsg] = useState("");
   const [transition] = useState(Grow as TransitionProps);
   const [vertical] = useState("top");
   const [horizontal] = useState("center");
