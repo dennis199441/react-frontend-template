@@ -5,6 +5,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 - [x] Sign in function
 - [x] Sign out function
 - [x] Sign up function
+- [ ] Forget password
 - [ ] User profile page
 - [ ] Chat interface
 - [ ] News feed
