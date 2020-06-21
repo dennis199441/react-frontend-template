@@ -3,8 +3,9 @@ import { Switch, Route, Redirect } from "react-router-dom";
 import Home from './pages/Home';
 import Chat from './pages/Chat';
 import FullScreenLoading from '../common/component/FullScreenLoading';
+import RouteProps from './types/RouteProps';
 
-function Routing(props) {
+function Routing(props: RouteProps) {
   if(!props.user) {
     return <FullScreenLoading/>
   }

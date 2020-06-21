@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, FormEvent } from 'react';
 import { useHistory } from "react-router-dom";
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -10,12 +10,14 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Snackbar from '@material-ui/core/Snackbar';
+import { SnackbarOrigin } from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 import Grow from '@material-ui/core/Grow';
 import { CircularProgress } from '@material-ui/core';
 import { Auth } from 'aws-amplify';
 import Copyright from '../components/Copyright';
 import Logo from '../../common/component/Logo';
+import { TransitionProps } from '@material-ui/core/transitions';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -48,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Alert(props) {
+function Alert(props: any) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
@@ -57,8 +59,8 @@ function Signin() {
 
   const [open, setOpen] = useState(false);
   const [disable, setDisable] = useState(false);
-  const [errorMsg, setErrorMsg] = useState();
-  const [transition] = useState(Grow);
+  const [errorMsg, setErrorMsg] = useState("");
+  const [transition] = useState(Grow as TransitionProps);
   const [vertical] = useState("top");
   const [horizontal] = useState("center");
   const [loading, setLoading] = useState(true);
@@ -73,17 +75,17 @@ function Signin() {
     }
   });
 
-  const handleClose = (event, reason) => {
+  const handleClose = () => {
     setOpen(false);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setDisable(true);
-    const data = new FormData(event.target);
-    let email = data.get('email').toLowerCase();
-    let password = data.get('password');
-    Auth.signIn(email, password).then(data => {
+    const data = new FormData(event.target as HTMLFormElement);
+    let email: string = data!.get('email') as string;
+    let password: string = data!.get('password') as string;
+    Auth.signIn(email.toLowerCase(), password).then(data => {
       history.replace('/secure')
     }).catch(e => {
       setOpen(true);
@@ -95,7 +97,7 @@ function Signin() {
   const renderButton = () => {
     if (loading) {
       return (
-        <div style={{textAlign: 'center'}}>
+        <div style={{ textAlign: 'center' }}>
           <CircularProgress />
         </div>
       );
@@ -113,14 +115,14 @@ function Signin() {
       </Button>
     );
   };
-  
+
   return (
     <Grid container component="main" className={classes.root}>
       <CssBaseline />
       <Grid item xs={false} sm={4} md={7} className={classes.image} />
       <Grid item xs={12} sm={8} md={5} component={Paper} elevation={0} square>
         <div className={classes.paper}>
-          <Logo/>
+          <Logo />
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
@@ -161,11 +163,11 @@ function Signin() {
               </Grid>
             </Grid>
             <Snackbar
-              anchorOrigin={{ vertical, horizontal }}
+              anchorOrigin={{ vertical, horizontal } as SnackbarOrigin}
               open={open}
               onClose={handleClose}
-              TransitionComponent={transition}
-              key={transition.name}
+              TransitionComponent={transition as any}
+              // key={transition}
             >
               <Alert severity="error">{errorMsg}</Alert>
             </Snackbar>

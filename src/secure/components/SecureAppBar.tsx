@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -85,27 +85,19 @@ const useStyles = makeStyles((theme) => ({
 function SecureAppBar() {
   let history = useHistory();
   const classes = useStyles();
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-
-  const isMenuOpen = Boolean(anchorEl);
+  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
-  const handleProfileMenuOpen = (event) => {
-    setAnchorEl(event.currentTarget);
+  const handleProfileButton = () => {
+    console.log("to profile page");
   };
 
   const handleMobileMenuClose = () => {
     setMobileMoreAnchorEl(null);
   };
 
-  const handleMenuClose = () => {
-    setAnchorEl(null);
-    handleMobileMenuClose();
-  };
-
-  const handleMobileMenuOpen = (event) => {
-    setMobileMoreAnchorEl(event.currentTarget);
+  const handleMobileMenuOpen = (event: any) => {
+    setMobileMoreAnchorEl(event.currentTarget as any);
   };
 
   const handleSignOut = () => {
@@ -114,21 +106,6 @@ function SecureAppBar() {
   };
 
   const menuId = 'primary-search-account-menu';
-  const renderMenu = (
-    <Menu
-      anchorEl={anchorEl}
-      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-      id={menuId}
-      keepMounted
-      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-      open={isMenuOpen}
-      onClose={handleMenuClose}
-    >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
-      <MenuItem onClick={handleSignOut}>Sign out</MenuItem>
-    </Menu>
-  );
 
   const mobileMenuId = 'primary-search-account-menu-mobile';
   const renderMobileMenu = (
@@ -157,7 +134,7 @@ function SecureAppBar() {
         </IconButton>
         <p>Notifications</p>
       </MenuItem>
-      <MenuItem onClick={handleProfileMenuOpen}>
+      <MenuItem onClick={handleProfileButton}>
         <IconButton
           aria-label="account of current user"
           aria-controls="primary-search-account-menu"
@@ -189,7 +166,7 @@ function SecureAppBar() {
           >
             <MenuIcon />
           </IconButton>
-          <Button href="/secure/home" style={{color: 'white'}}>
+          <Button href="/secure/home" style={{ color: 'white' }}>
             Demo
           </Button>
           <div className={classes.search}>
@@ -222,10 +199,17 @@ function SecureAppBar() {
               aria-label="account of current user"
               aria-controls={menuId}
               aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
+              onClick={handleProfileButton}
               color="inherit"
             >
               <AccountCircle />
+            </IconButton>
+            <IconButton
+              edge="end"
+              aria-label="sign out"
+              onClick={handleSignOut}
+              color="inherit">
+              <ExitToAppIcon />
             </IconButton>
           </div>
           <div className={classes.sectionMobile}>
@@ -240,9 +224,9 @@ function SecureAppBar() {
             </IconButton>
           </div>
         </Toolbar>
+        {renderMobileMenu}
       </AppBar>
-      {renderMobileMenu}
-      {renderMenu}
+
     </div>
   );
 }

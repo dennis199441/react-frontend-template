@@ -17,7 +17,6 @@ function Logo() {
   let history = useHistory();
   
   const handleClickLogo = () => {
-    console.log("test")
     history.replace("/");
   }
   

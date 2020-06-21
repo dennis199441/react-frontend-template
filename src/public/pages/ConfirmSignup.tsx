@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useHistory } from "react-router-dom";
+import React, { useState, FormEvent } from 'react';
+import { Redirect, useHistory } from "react-router-dom";
 import { Auth } from 'aws-amplify';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -12,10 +12,11 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Snackbar from '@material-ui/core/Snackbar';
+import { SnackbarOrigin } from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 import Grow from '@material-ui/core/Grow';
+import { TransitionProps } from '@material-ui/core/transitions/transition';
 import Copyright from '../components/Copyright';
-import { Redirect } from 'react-router-dom/cjs/react-router-dom.min';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -48,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Alert(props) {
+function Alert(props: any) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
@@ -59,10 +60,10 @@ function ConfirmSignup() {
   const [openSucMsg, setOpenSucMsg] = useState(false);
   const [openErrMsg, setOpenErrMsg] = useState(false);
   const [openInfoMsg, setOpenInfoMsg] = useState(false);
-  const [successMsg, setSuccessMsg] = useState();
-  const [errorMsg, setErrorMsg] = useState();
-  const [infoMsg, setInfoMsg] = useState();
-  const [transition] = useState(Grow);
+  const [successMsg, setSuccessMsg] = useState("");
+  const [errorMsg, setErrorMsg] = useState("");
+  const [infoMsg, setInfoMsg] = useState("");
+  const [transition] = useState(Grow as TransitionProps);
   const [vertical] = useState("top");
   const [horizontal] = useState("center");
 
@@ -71,26 +72,26 @@ function ConfirmSignup() {
     return <Redirect to="/signup" />
   }
 
-  let username = history.location.state.username;
+  let username = (history.location.state as any).username;
 
-  const handleCloseSucMsg = (event, reason) => {
+  const handleCloseSucMsg = () => {
     setOpenSucMsg(false);
     history.replace('/signin');
   };
 
-  const handleCloseInfoMsg = (event, reason) => {
+  const handleCloseInfoMsg = () => {
     setOpenInfoMsg(false);
   };
 
-  const handleCloseErrMsg = (event, reason) => {
+  const handleCloseErrMsg = () => {
     setOpenErrMsg(false);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setDisable(true);
-    const data = new FormData(event.target);
-    let verificationCode = data.get('verificationCode');
+    const data = new FormData(event.target as HTMLFormElement);
+    let verificationCode:string = data.get('verificationCode') as string;
     Auth.confirmSignUp(username, verificationCode).then(data => {
       setOpenSucMsg(true);
       setSuccessMsg("Verification Success! Click to sign in!");
@@ -158,29 +159,29 @@ function ConfirmSignup() {
               </Grid>
             </Grid>
             <Snackbar
-              anchorOrigin={{ vertical, horizontal }}
+              anchorOrigin={{ vertical, horizontal } as SnackbarOrigin}
               open={openInfoMsg}
               onClose={handleCloseInfoMsg}
-              TransitionComponent={transition}
-              key={transition.name}
+              TransitionComponent={transition as any}
+              // key={transition.key}
             >
               <Alert severity="info">{infoMsg}</Alert>
             </Snackbar>
             <Snackbar
-              anchorOrigin={{ vertical, horizontal }}
+              anchorOrigin={{ vertical, horizontal } as SnackbarOrigin}
               open={openErrMsg}
               onClose={handleCloseErrMsg}
-              TransitionComponent={transition}
-              key={transition.name}
+              TransitionComponent={transition as any}
+              // key={transition.key}
             >
               <Alert severity="error">{errorMsg}</Alert>
             </Snackbar>
             <Snackbar
-              anchorOrigin={{ vertical, horizontal }}
+              anchorOrigin={{ vertical, horizontal } as SnackbarOrigin}
               open={openSucMsg}
               onClose={handleCloseSucMsg}
-              TransitionComponent={transition}
-              key={transition.name}
+              TransitionComponent={transition as any}
+              // key={transition.key}
             >
               <Alert severity="success">{successMsg}</Alert>
             </Snackbar>

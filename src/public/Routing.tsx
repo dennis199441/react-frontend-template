@@ -5,7 +5,7 @@ import Signup from './pages/Signup';
 import ConfirmSignup from './pages/ConfirmSignup';
 import Landing from "./pages/Landing";
 
-function Routing(props) {
+function Routing() {
   return (
     <Switch>
       <Route path="/signin">
