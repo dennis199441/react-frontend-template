@@ -2,6 +2,7 @@ import React, { memo } from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 import Home from './pages/Home';
 import Chat from './pages/Chat';
+import Profile from './pages/Profile';
 import FullScreenLoading from '../common/component/FullScreenLoading';
 import RouteProps from './types/RouteProps';
 
@@ -21,6 +22,9 @@ function Routing(props: RouteProps) {
       </Route>
       <Route path="/secure/chat">
         <Chat />
+      </Route>
+      <Route path="/secure/profile">
+        <Profile/>
       </Route>
       <Route path="/secure">
         <Redirect to="/secure/home" />

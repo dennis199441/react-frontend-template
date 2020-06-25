@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { useHistory } from 'react-router-dom';
 import logo from '../../assets/logo.png';
 import { Button } from '@material-ui/core';
+import LogoProps from '../types/LogoProps';
 
 const useStyles = makeStyles((theme) => ({
   logo: {
@@ -11,13 +12,13 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-function Logo() {
+function Logo(props: LogoProps) {
   const classes = useStyles();
-
+  let route = props.route;
   let history = useHistory();
   
   const handleClickLogo = () => {
-    history.replace("/");
+    history.replace(route);
   }
   
   return (

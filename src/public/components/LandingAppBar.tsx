@@ -26,7 +26,7 @@ function LandingAppBar() {
     <AppBar position="sticky" color="default" elevation={0} className={classes.appBar}>
         <Toolbar>
           <Typography variant="h6" className={classes.title}>
-            <Logo/>
+            <Logo route="/"/>
           </Typography>
           <SignInButton/>
           <SignUpButton/>
